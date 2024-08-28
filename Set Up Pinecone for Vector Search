@@ -1,0 +1,19 @@
+npm install pinecone-client
+import { PineconeClient } from "pinecone-client";
+
+const client = new PineconeClient();
+client.init({
+  apiKey: process.env.PINECONE_API_KEY,
+  environment: process.env.PINECONE_ENVIRONMENT,
+});
+
+export const upsertProfessorEmbedding = async (id, embedding) => {
+  const index = client.Index("professor-reviews");
+  await index.upsert([{ id, values: embedding }]);
+};
+
+export const queryProfessor = async (embedding, topK = 5) => {
+  const index = client.Index("professor-reviews");
+  const result = await index.query({ queryVector: embedding, topK });
+  return result.matches;
+};
