@@ -1,0 +1,3 @@
+npx create-next-app rate-my-professor-ai
+cd rate-my-professor-ai
+
